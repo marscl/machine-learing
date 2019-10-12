@@ -1,4 +1,5 @@
 from numpy import *
+from os import listdir
 import operator
 
 
@@ -82,3 +83,37 @@ def classifyPerson():
     inArr = array([ffMiles, percebtTats, iceCream])
     result = classity0(inArr, normMat, labels, 3)
     print('you will probably like this person:', resultList[result - 1])
+
+
+def img2Vector(filename):
+    returnVector = zeros((1, 1024))
+    fr = open(filename)
+    for i in range(32):
+        line = fr.readline()
+        for j in range(32):
+            returnVector[0, 32 * i + j] = int(line[j])
+    return returnVector
+
+
+def handwritingClassTest():
+    labels = []
+    fileList = listdir('datas/trainingDigits')
+    m = len(fileList)
+    trainingMat = zeros((m, 1024))
+    for i in range(m):
+        filename = fileList[i]
+        classNum = int(filename.split('.')[0].split('_')[0])
+        labels.append(classNum)
+        trainingMat[i, :] = img2Vector("datas/trainingDigits/{}".format(filename))
+
+    testFileList = listdir("datas/testDigits")
+    mTest = len(testFileList)
+    errorCount = 0
+    for i in range(mTest):
+        filename = testFileList[i]
+        classNum = int(filename.split('.')[0].split('_')[0])
+        testVector = img2Vector("datas/testDigits/{}".format(filename))
+        result = classity0(testVector, trainingMat, labels, 3)
+        print("the classifier came up with:{},the real answer is:{} ". format(result, classNum))
+        if (result != classNum): errorCount += 1
+    print('total error rate is {}'.format(errorCount/float(mTest)))
