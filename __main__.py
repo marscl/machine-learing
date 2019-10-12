@@ -1,0 +1,5 @@
+n1=input('num1:')
+n2=input('num2:')
+sum=float(n1)+float(n2)
+print(sum)
+print('{0}+{1}={2}'.format(n1,n2,sum))
