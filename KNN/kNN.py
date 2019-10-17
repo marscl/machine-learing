@@ -1,13 +1,12 @@
+# k-邻进算法
 from numpy import *
 from os import listdir
 import operator
-
 
 def createDataSet():
     group = array([[1.0, 1.1], [1.0, 1.0], [0, 0], [0, 0.1]])
     labels = ['A', 'A', 'B', 'B']
     return group, labels
-
 
 def classity0(inX, dataset, labels, k):
     datasetSize = dataset.shape[0];
